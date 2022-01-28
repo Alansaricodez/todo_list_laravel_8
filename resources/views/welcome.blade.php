@@ -21,6 +21,7 @@
                 display: flex;
                 justify-content: center;
                 align-content: center;
+                text-align: center
                 
             }
 
@@ -35,8 +36,14 @@
                 height: 100%;
                 width: 100%;
             }
-            .list-container h1, .list-container h4, label{
+             h1, h4, label{
                 color: #bbbbbb;
+            }
+
+            .task-container{
+                background-color: rgba(203, 213, 224, 07);
+                padding: 15px;
+                border-radius: 6px;
             }
 
             .tasks-details{
@@ -72,14 +79,42 @@
                 margin-left: 10px;
             }
 
+            .editBTN{
+                padding: 0.7em;
+                background-color: orange;
+                border-radius: 6px;
+                color: #2d3748;
+                font-weight: 600;
+                margin-left: 5px;
+                cursor: pointer;
+            }
+
+            .addLink{
+                background-color: #f8f8f8ad;
+                padding: 0.7em;
+                border-radius: 6px;
+                color: #2d3748;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            
+            .title{
+                color: #000;
+            }
+
+           
+
             
         </style>
     </head>
    <body>
-       <div class="list-container">
-           <h1>تطبيق قائمة المهام</h1>
-                
-                <div>
+
+
+    <h1 class="title">تطبيق قائمة المهام</h1>
+
+
+       <div class="list-container">          
+                <div class="task-container">
                     @foreach ($tasks as $task)
                         @if($task->is_completed == 1)
                         <div class="flex items-center mx-auto justify-center w-full tasks-details">
@@ -90,26 +125,27 @@
                             <form action="{{route('deleteTask', $task->id)}}" method="POST" accept-charset="UTF-8">
                                 @csrf
                                 <button class="danger" type="submit">امسح المهمة</button>
-                            </form>
-
+                            </form>             
                         </div>
 
                         <hr>
 
                         @else   
                         <br>
-                                   <div class="flex items-center mx-auto mt-10 justify-center w-full tasks-details">
-                                    <p>
-                                        {{$task->name}}
-                                    </p>
-        
-                                        <form action="{{route('setCompleted', $task->id)}}" method="POST" accept-charset="UTF-8">
-                                            @csrf
-                                            <button class="addBtn" type="submit">تم اكمال المهمة</button>
-                                        </form>
+                                <div class="flex items-center mx-auto mt-10 justify-center w-full tasks-details">
+                                <p>
+                                    {{$task->name}}
+                                </p>
+    
+                                    <form action="{{route('setCompleted', $task->id)}}" method="POST" accept-charset="UTF-8">
+                                        @csrf
+                                        <button class="addBtn" type="submit">تم اكمال المهمة</button>
+                                    </form>
 
-                                        
-                                   </div>
+                                    <a href="{{route('editTask', $task->id)}}" class="editBTN">
+                                        عدل المهمة
+                                    </a>                         
+                                </div>
                         @endif
 
                     @endforeach
@@ -119,12 +155,11 @@
            <hr>
 
            <div>
-               <form action="{{route('addTask')}}" method="POST" accept-charset="UTF-8">
-                   @csrf
-                   <label for="name">اضف مهمة جديدة</label>
-                   <input type="text" name="name">
-                   <button type="submit">اضف</button>
-               </form>
+              
+            <a href="{{route('createTask')}}" class="addLink">
+                اضف مهمة
+            </a>
+               
            </div>
        </div>
 

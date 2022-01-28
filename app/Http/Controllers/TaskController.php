@@ -15,6 +15,13 @@ class TaskController extends Controller
 
     }
 
+    public function createTask(){
+
+
+        return view('task.create');
+
+    }
+
     public function addTask(Request $request){
         $task = new Task();
         $task->name = $request->name;
@@ -27,6 +34,18 @@ class TaskController extends Controller
     public function setCompleted($id){
         $task = Task::find($id);
         $task->is_completed = 1;
+        $task->save();
+        return redirect('/');
+    }
+
+    public function editTask($id){
+        $task = Task::find($id);
+        return view('task.edit', compact('task'));
+    }
+
+    public function updateTask($id, Request $request){
+        $task = Task::find($id);
+        $task->name = $request->name;
         $task->save();
         return redirect('/');
     }
